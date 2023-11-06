@@ -23,6 +23,14 @@ OSU Software Design Project Game Server
 #define GAME_ENTITY_GOAL       0x09
 #define GAME_ENTITY_PROJECTILE 0x0A
 
+#define GAME_SENDER_SERVER 0x10
+#define GAME_SENDER_CLIENT 0x11
+
+typedef struct _GAME_MESSAGE {
+    LPSTR Message;
+    DWORD Sender;
+}GAME_MESSAGE, *PGAME_MESSAGE;
+
 typedef struct _GAME_RULES {
     DWORD MaxPlayerCount;
     DWORD ObjectiveType;
@@ -31,48 +39,59 @@ typedef struct _GAME_RULES {
     DWORD MapWidth;
     DWORD MapHeight;
 
+    BOOLEAN InFreezeTime;
+    DWORD FreezeTimeOver;
     BOOLEAN IsGameReady;
-    DWORD ClientSecrets[2];
     DWORD GameScore[2];
 }GAME_RULES, *PGAME_RULES;
 
 typedef struct _GAME_ENTITY {
     DWORD EntityType;
     DWORD PositionX, PositionY;
-
-    BOOLEAN EntityHasHealth;
+    DWORD AimPosX, AimPosY;
+    DWORD EntityTextureId;
     DWORD EntityHealth;
     DWORD EntityMaxHealth;
-
+    BOOLEAN EntityHasHealth;
     BOOLEAN HasWeapon;
+    BOOLEAN EntityComputeClipping;
+
     struct {
+        BOOLEAN IsFiring;
         DWORD WeaponId;
         DWORD NextFireTick;
-
         DWORD AmmoCount;
         DWORD ReserveMagazines;
     }WeaponInfo;
 
-    BOOLEAN EntityComputeClipping;
     struct {
         BOOLEAN EntityOccludes;
         BOOLEAN EntityCanNotPass;
     }Clipping;
 
-    DWORD EntityTextureId;
 
     struct {
         CHAR PlayerName[64];
+        BOOLEAN HasFlag;
     }PlayerData;
+
+    struct {
+        BOOLEAN IsCarried;
+        DWORD CarryingPlayer;
+    }ObjectiveData;
 }GAME_ENTITY, *PGAME_ENTITY
 
 typedef struct _GAME_SERVER {
     DWORD TickRate;
     DWORD TickBase;
+    DWORD ClientSecrets[2];
     DWORD GameExpirationTick;
 
     DWORD EntityCount;
     PGAME_ENTITY Entities;
+
+    DWORD GameMessageCount;
+    PGAME_MESSAGE Messages;
 
     PGAME_RULES GameRules;
 }GAME_SERVER, *PGAME_SERVER;
