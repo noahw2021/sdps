@@ -142,9 +142,11 @@
     <ClCompile Include="inet\inet_http.c" />
     <ClCompile Include="inet\inet_init.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="netp\netp_generate.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inet\inet.h" />
+    <ClInclude Include="netp\netp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
