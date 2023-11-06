@@ -10,7 +10,10 @@ OSU Software Design Project Game Server
 #include "inet.h"
 #include <stdio.h>
 
+LPSTR Backup;
 VOID InListen(VOID) {
+	Backup = NULL;
+
 	DWORD Return = NULL;
 	DWORD UrlCount = 0x00;
 	HTTPAPI_VERSION HttpVersion = HTTPAPI_VERSION_1;
@@ -167,5 +170,32 @@ VOID InRespondApi(INT Code, LPCSTR Message, LPCSTR Data) {
 	HttpSendHttpResponse(InetCtx->RequestQueue, InetCtx->ThisRequest->RequestId,
 		NULL, &Response, NULL, &BytesSent, NULL, NULL, NULL, NULL);
 
+	return;
+}
+
+LPSTR IniGetToken(LPCSTR Token) {
+	if (!InetCtx->ThisRequest->CookedUrl.pQueryString)
+		return NULL;
+	if (!Backup)
+		Backup = HeapAlloc(GetProcessHeap(), NULL, strlen(InetCtx->ThisRequest->CookedUrl.pQueryString) + 1);
+	LPSTR Limited = Backup + 1;
+
+	LPSTR Chunk = strtok(Limited, "&");
+	while (Chunk) {
+		LPSTR Chunk2 = strstr(Chunk, "=");
+		if (!Chunk2)
+			continue;
+
+		// 64 is the max size of a for: &b=a
+		if (!strncmp(Chunk, Token, (Chunk2 - Chunk)) && strlen(Chunk2 + 1) <= 64)
+			return Chunk2 + 1;
+
+		Chunk = strtok(NULL, "&");
+	}
+	
+	return NULL;
+}
+
+VOID IniFreeToken(LPSTR Token) {
 	return;
 }

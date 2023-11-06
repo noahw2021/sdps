@@ -225,7 +225,7 @@ VOID WINAPI MmeGetMatchmakingData(
 	}
 
 	char PlayerSearchingStr[64];
-	itoa(PlayerSearching, PlayerSearchingStr, 10);
+	_itoa(PlayerSearching, PlayerSearchingStr, 10);
 
 	NpAddField(Response, "PlayersSearching", PlayerSearchingStr);
 	NpAddField(Response, "GameFound", Lobby->ShouldDeliverGame ? "True" : "False");

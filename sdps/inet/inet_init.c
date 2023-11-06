@@ -23,6 +23,7 @@ VOID InInit(LPCSTR Url) {
 	return;
 }
 
+extern LPSTR Backup;
 VOID InShutdown(VOID) {
 	if (!InetCtx)
 		return;
@@ -40,6 +41,7 @@ VOID InShutdown(VOID) {
 		HttpShutdownRequestQueue(InetCtx->RequestQueue);
 
 	HeapFree(GetProcessHeap(), NULL, InetCtx);
+	HeapFree(GetProcessHeap(), NULL, Backup);
 	return;
 }
 
