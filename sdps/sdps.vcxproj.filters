@@ -27,12 +27,33 @@
     <ClCompile Include="netp\netp_generate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="services\matchmaking\endpoints\mm_sessions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services\matchmaking\mm_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services\matchmaking\endpoints\mm_coordinator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inet\inet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="netp\netp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services\game\endpoints\sg_endpoints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services\matchmaking\endpoints\mm_endpoints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services\matchmaking\matchmaking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services\game\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

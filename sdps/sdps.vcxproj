@@ -143,10 +143,17 @@
     <ClCompile Include="inet\inet_init.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="netp\netp_generate.c" />
+    <ClCompile Include="services\matchmaking\endpoints\mm_coordinator.c" />
+    <ClCompile Include="services\matchmaking\endpoints\mm_sessions.c" />
+    <ClCompile Include="services\matchmaking\mm_init.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inet\inet.h" />
     <ClInclude Include="netp\netp.h" />
+    <ClInclude Include="services\game\endpoints\sg_endpoints.h" />
+    <ClInclude Include="services\game\game.h" />
+    <ClInclude Include="services\matchmaking\endpoints\mm_endpoints.h" />
+    <ClInclude Include="services\matchmaking\matchmaking.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

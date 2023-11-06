@@ -37,3 +37,6 @@ VOID InListen(VOID);
 VOID InRecieve(HANDLE RequestQueue);
 VOID InRegisterApi(LPCSTR Url, API_FUNCTION Ptr);
 VOID InRespondApi(INT Code, LPCSTR Message, LPCSTR Data);
+
+LPSTR IniGetToken(LPCSTR Token);
+VOID IniFreeToken(LPSTR Token);
