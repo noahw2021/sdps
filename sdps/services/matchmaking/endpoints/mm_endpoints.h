@@ -8,6 +8,7 @@ sdps
 OSU Software Design Project Game Server
 */
 
+#define _WIN32_LEAN_AND_MEAN
 #include "../matchmaking.h"
 #include "../../../inet/inet.h"
 #include "../../../netp/netp.h"
@@ -74,6 +75,7 @@ GameFound : <BOOL>
 HasLocalAccepted : <BOOL>
 HasOpponentAccepted : <BOOL>
 GameStarted : <BOOL>
+GameCancelled : <BOOL>
 GameServerId : <INT>
  * Error Response:
 Success : False

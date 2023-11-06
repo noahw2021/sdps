@@ -8,7 +8,8 @@ sdps
 OSU Software Design Project Game Server
 */
 
-#define _WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <WinSock2.h>
 #include <Windows.h>
 #include <http.h>
 

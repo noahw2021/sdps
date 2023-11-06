@@ -8,6 +8,7 @@ sdps
 OSU Software Design Project Game Server
 */
 
+#define _WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 typedef struct _MATCHMAKING_USER {
@@ -30,9 +31,11 @@ typedef struct _MATCHMAKING_LOBBY {
 	BOOLEAN ShouldDeliverGame;
 	BOOLEAN ReadyToAccept;
 	BOOLEAN Invalid;
+	BOOLEAN GameCancelled;
 
 	INT PlannedServerId;
 	BOOLEAN HasOpponentAccepted;
+	BOOLEAN HasLocalAccepted;
 }MATCHMAKING_LOBBY, 
 *PMATCHMAKING_LOBBY;
 

@@ -7,6 +7,7 @@ sdps
 OSU Software Design Project Game Server
 */
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "inet/inet.h"
 

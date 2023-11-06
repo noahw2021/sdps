@@ -10,6 +10,8 @@ OSU Software Design Project Game Server
 #include "inet.h"
 PINETCTX InetCtx;
 
+#pragma comment(lib, "httpapi.lib")
+
 VOID InInit(LPCSTR Url) {
 	InetCtx = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(INETCTX));
 	if (!InetCtx)
