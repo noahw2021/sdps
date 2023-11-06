@@ -32,6 +32,7 @@ typedef struct _MATCHMAKING_LOBBY {
 	BOOLEAN ReadyToAccept;
 	BOOLEAN Invalid;
 	BOOLEAN GameCancelled;
+	BOOLEAN GameStarted;
 
 	INT PlannedServerId;
 	BOOLEAN HasOpponentAccepted;
@@ -42,6 +43,7 @@ typedef struct _MATCHMAKING_LOBBY {
 typedef struct _MATCHMAKING_SERVER {
 	INT ServerNumber;
 	BOOLEAN IsInUse;
+	BOOLEAN GameStarted;
 
 	DWORD UserCount;
 	PMATCHMAKING_USER* MmUsers;

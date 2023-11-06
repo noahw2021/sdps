@@ -7,6 +7,8 @@ sdps
 OSU Software Design Project Game Server
 */
 #include "mm_endpoints.h"
+#include <stdlib.h>
+#include <string.h>
 
 // http://127.0.0.1:80/GameCoordinator/StartMatchmaking?SessionId=NUMBER
 /* Valid Response:
@@ -53,7 +55,7 @@ VOID WINAPI MmeStartMatchmaking(
 		if (!ThisLobby->IsSearching)
 			continue;
 		
-		PartnerLobby = NULL;
+		PartnerLobby = ThisLobby;
 	}
 
 	if (PartnerLobby) {
@@ -250,5 +252,76 @@ Success : True
 Success : False
 */
 VOID WINAPI MmeAcceptMatch(LPCSTR Url) {
+	LPSTR _SessionId = IniGetToken("SessionId");
+	if (!_SessionId) {
+		PNETP_ENTRY Response = NpCreate();
+		NpAddField(Response, "Success", "False");
+		NpCalculate(Response);
+		InRespondApi(200, "OK", Response->CalculatedString);
+		NpDestroy(Response);
+		return;
+	}
 
+	DWORD SessionId = strtoul(_SessionId, NULL, 10);
+	IniFreeToken(_SessionId);
+	if (SessionId > (MmClient->LobbyCount + 1) ||
+		MmClient->Lobbies[SessionId].Invalid
+		) {
+		PNETP_ENTRY Response = NpCreate();
+		NpAddField(Response, "Success", "False");
+		NpCalculate(Response);
+		InRespondApi(200, "OK", Response->CalculatedString);
+		NpDestroy(Response);
+		return;
+	}
+
+	MmcUpdateGameServerInfo();
+	PMATCHMAKING_LOBBY Lobby = &MmClient->Lobbies[SessionId];
+	PMATCHMAKING_LOBBY PartnerLobby = NULL;
+
+	for (int i = 0; i < MmClient->LobbyCount; i++) {
+		PMATCHMAKING_LOBBY ThisLobby = &MmClient->Lobbies[i];
+		if (ThisLobby->Invalid)
+			continue;
+		if (!ThisLobby->IsSearching)
+			continue;
+
+		PartnerLobby = ThisLobby;
+	}
+
+	if (!PartnerLobby) {
+		Lobby->GameCancelled = TRUE;
+		Lobby->HasOpponentAccepted = FALSE;
+		Lobby->LastUserPing = GetTickCount64();
+		
+		PNETP_ENTRY Response = NpCreate();
+		NpAddField(Response, "Success", "True");
+		NpCalculate(Response);
+		InRespondApi(200, "OK", Response->CalculatedString);
+		NpDestroy(Response);
+		return;
+	}
+
+	if (PartnerLobby->HasLocalAccepted)
+		Lobby->HasOpponentAccepted = TRUE;
+	PartnerLobby->HasOpponentAccepted = TRUE;
+	Lobby->HasLocalAccepted = TRUE;
+
+	if (Lobby->HasOpponentAccepted) {
+		Lobby->GameStarted = TRUE;
+		PartnerLobby->GameStarted = TRUE;
+	}
+
+	for (int i = 0; i < MmClient->ServerCount; i++) {
+		PMATCHMAKING_SERVER ThisServer = &MmClient->Servers[i];
+		if (ThisServer->ServerNumber == Lobby->PlannedServerId)
+			ThisServer->GameStarted = TRUE;
+	}
+
+	PNETP_ENTRY Response = NpCreate();
+	NpAddField(Response, "Success", "True");
+	NpCalculate(Response);
+	InRespondApi(200, "OK", Response->CalculatedString);
+	NpDestroy(Response);
+	return;
 }
