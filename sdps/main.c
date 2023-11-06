@@ -10,6 +10,8 @@ OSU Software Design Project Game Server
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "inet/inet.h"
+#include "services/matchmaking/matchmaking.h"
+#include "services/matchmaking/endpoints/mm_endpoints.h"
 
 BOOL 
 WINAPI 
@@ -37,6 +39,10 @@ BOOL APIENTRY WinMain(
 	AllocConsole();
 	SetConsoleTitleA("SDP Server");
 	SetConsoleCtrlHandler(ControlHandler, TRUE);
+
+	InRegisterApi("http://127.0.0.1:80/GameCoordinator/CreateSession?UserSecret=NUMBER", MmeCreateSession);
+
+	InInit("http://sdp.trustup.care:80/");
 
 	return TRUE;
 }

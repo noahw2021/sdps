@@ -108,7 +108,7 @@ VOID InRecieve(HANDLE RequestQueue) {
 		for (int i = 0; i < InetCtx->EndPointCount; i++) {
 			LPSTR AltQualUrl = HeapAlloc(GetProcessHeap(), NULL,
 				strlen(InetCtx->Endpoints[i].Url) + 256);
-			sprintf(AltQualUrl, "http://127.0.0.1%s", 
+			sprintf(AltQualUrl, "%s%s", InetCtx->UrlPrefix,
 				strstr(InetCtx->Endpoints[i].Url, ":"));
 
 			LPWSTR QualifiedStringW = HeapAlloc(GetProcessHeap(), NULL,
