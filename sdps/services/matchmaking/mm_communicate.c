@@ -8,5 +8,5 @@ OSU Software Design Project Game Server
 */
 
 VOID MmcUpdateGameServerInfo(VOID) {
-  return;
+    return;
 }
